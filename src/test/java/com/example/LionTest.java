@@ -23,17 +23,16 @@ public class LionTest {
         }
     @Test(expected = Exception.class)
     public void doesHaveManeReturnsCorrectHasMane() throws Exception {
-        Lion lion = new Lion("bla", feline);
-        try {
-            lion.doesHaveMane();
-        } catch (Exception exception) {
-        }
+        Lion lion = new Lion("Bla", feline);
+        Assert.assertThrows("Используйте допустимые значения пола животного - самец или самка",
+                Exception.class, () -> lion.doesHaveMane());
     }
     @Test
-    public void getFoodReturnsCorrectGetFoodForLine() throws Exception {
+    public void getFoodReturnsMeatForLion() throws Exception {
         Lion lion = new Lion("Самец", feline);
-        List<String> expectedArrayListLion = Arrays.asList();
-        List<String> actualArrayListLion = lion.getFood();
-        Assert.assertEquals(expectedArrayListLion, actualArrayListLion);
+        lion.getFood();
+        Mockito.verify(feline, Mockito.times(1)).getFood(Mockito.anyString());
+        Mockito.when(feline.getFood(Mockito.anyString())).thenReturn(List.of("Meat"));
+        Assert.assertEquals(List.of("Meat"), lion.getFood());
     }
 }
